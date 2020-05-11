@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="stackDepth" source="info.app.log.stack-depth" defaultValue="30" />
+    <springProperty scope="context" name="stackSize" source="info.app.log.stack-size" defaultValue="2048" />
+    <contextName>${@project.artifactId@}</contextName>
+       <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+       <appender name="logToConsole" class="ch.qos.logback.core.ConsoleAppender">
+           <encoder>
+               <pattern>
+                   %color(%date{HH:mm:ss.SSS}){faint} [%color(%8.8thread){magenta}] %color(%-5level) %color(%40.40logger{39}){cyan} %color(%X{X-B3-TraceId}){red} %color(:){faint} %message%n%ex{${stackDepth}}
+               </pattern>
+           </encoder>
+       </appender>
+      <root level="INFO">
+           <appender-ref ref="logToConsole"/>
+       </root>
+</configuration>
