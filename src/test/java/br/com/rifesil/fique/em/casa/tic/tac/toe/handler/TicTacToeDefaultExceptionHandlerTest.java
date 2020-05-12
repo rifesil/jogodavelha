@@ -1,11 +1,14 @@
 package br.com.rifesil.fique.em.casa.tic.tac.toe.handler;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.context.request.WebRequest;
@@ -15,30 +18,32 @@ import br.com.rifesil.fique.em.casa.tic.tac.toe.error.CustomNotFoundException;
 @ExtendWith(MockitoExtension.class)
 class TicTacToeDefaultExceptionHandlerTest {
 
-	@Mock
+	@InjectMocks
 	private TicTacToeDefaultExceptionHandler tacToeDefaultExceptionHandler;
 
 	@Mock
 	WebRequest request;
-	
-	@Mock
-	CustomNotFoundException exception;
-	
+
+	@InjectMocks
+	CustomNotFoundException customNotFoundException;
+
+	private Map<Boolean, String> map = new HashMap<Boolean, String>();
+
 	@BeforeEach
 	void setUp() {
-		exception = new CustomNotFoundException("");
+		map.put(false, "Empate");
+		customNotFoundException = new CustomNotFoundException(map.get(false));
 	}
+
 	@Test
 	void testHandleNotFoundException() {
-		CustomNotFoundException exception = new CustomNotFoundException("");
-		assertNull(tacToeDefaultExceptionHandler.handleNotFoundException(new CustomNotFoundException(exception.getMessage())));
+		assertNotNull(tacToeDefaultExceptionHandler.handleNotFoundException(customNotFoundException));
 	}
 
 	@Test
 	void testHandleAllExceptions() {
 		Exception exception = new Exception("");
 		assertNotNull(tacToeDefaultExceptionHandler.handleAllExceptions(exception, request));
-		
 	}
 
 }

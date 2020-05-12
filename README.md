@@ -9,17 +9,10 @@ Microsserviço
   + [Evolução](#evolução)
 * [Instalação](#instalação)
   + [Pré-requisitos](#pré-requisitos)
-  + [Configuração da Aplicação](#configuração-da-aplicação)
-    - [Perfil `default`](#perfil-default)
-    - [Perfil `local`](#perfil-local)
 * [Utilização](#utilização)
   + [Compilação](#compilação)
   + [Execução da Aplicação](#execução-da-aplicação)
   + [Contratos de APIs](#contratos-de-apis)
-* [Documentação](#documentação)
-* [Contribuições](#contribuições)
-* [Equipe](#equipe)
-* [Licença](#licença)
 
 ## Introdução
 > TODO: descreva o contexto e histórico que motivaram a construção desse microsserviço.
@@ -42,12 +35,6 @@ especificada ou superior.
 |--------------|--------------|--------------------------------|
 | OpenJDK      | 11.0.3 (LTS) | Plataforma Java                |
 | Apache Maven | 3.6.1        | Build e Gestão de Dependências |
-
-
-### Configuração da Aplicação
-
-A aplicação foi planejada para ser executada em dois ambientes distintos compartilhando o máximo de similaridades possíveis.
-Para isso foram criados dois perfis (_profiles_). Detalhes das configurações, profiles e sua utilização estão na próxima seção.
 
 ## Utilização
 

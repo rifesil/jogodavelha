@@ -4,12 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.FileReader;
-
 import javax.servlet.ServletContext;
 
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-import lombok.SneakyThrows;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -56,14 +51,12 @@ class TicTacToeConfigTest {
 		assertThat(ticTacToeConfig.greetingApi().isEnabled(), is(equalTo(doc.isEnabled())));
 
 	}
-	@SneakyThrows
 	private ApiInfo metaData() {
-		MavenXpp3Reader reader = new MavenXpp3Reader();
-		Model model = reader.read(new FileReader("pom.xml"));
-		return new ApiInfoBuilder().title(model.getName())
-				.description(model.getDescription())
-				.version(model.getVersion())
+		return new ApiInfoBuilder().title("Jogo da Velha / Tic Tac Toe")
+				.description("Valida se uma lista de jogadas houve vencedor no jogo da velha")
+				.version("v2")
 				.license("by Ricardo Ferreira da Silva").build();
+
 	}
 	@Test
 	void addResourceHandlers() {

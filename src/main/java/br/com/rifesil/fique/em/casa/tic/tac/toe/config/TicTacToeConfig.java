@@ -1,15 +1,10 @@
 package br.com.rifesil.fique.em.casa.tic.tac.toe.config;
 
-import java.io.FileReader;
-
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import lombok.SneakyThrows;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -30,13 +25,10 @@ public class TicTacToeConfig extends WebMvcConfigurationSupport {
 
 	}
 
-	@SneakyThrows
 	private ApiInfo metaData() {
-		MavenXpp3Reader reader = new MavenXpp3Reader();
-		Model model = reader.read(new FileReader("pom.xml"));
-		return new ApiInfoBuilder().title(model.getName())
-				.description(model.getDescription())
-				.version(model.getVersion())
+		return new ApiInfoBuilder().title("Jogo da Velha / Tic Tac Toe")
+				.description("Valida se uma lista de jogadas houve vencedor no jogo da velha")
+				.version("v2")
 				.license("by Ricardo Ferreira da Silva").build();
 	}
 

@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,7 +36,7 @@ class TicTacToeControllerTest {
 	ResponseDTO responseDTO;
 	@Mock
 	List<String> jogo;
-			
+
 	@BeforeEach
 	void setUp() {
 		service = new TicTacToeService();
@@ -47,25 +48,25 @@ class TicTacToeControllerTest {
 	@Test
 	void testDiagonalDireita() throws Exception {
 		jogo = new ArrayList<String>();
-		jogo.add("XXO");
-		jogo.add("XOX");
 		jogo.add("OOX");
+		jogo.add("OXO");
+		jogo.add("XXO");
 		requestDTO = new RequestDTO(jogo);
-		responseDTO = new ResponseDTO(true, "Ganhou | O | Diagonal para Direita");
+		responseDTO = new ResponseDTO(true, "Ganhou | X | Diagonal para Direita");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
 	void testDiagonalEsquerda() throws Exception {
 		jogo = new ArrayList<String>();
-		jogo.add("OXO");
-		jogo.add("OOX");
-		jogo.add("XOO");
+		jogo.add("XOX");
+		jogo.add("XXO");
+		jogo.add("OXX");
 		requestDTO = new RequestDTO(jogo);
-		responseDTO = new ResponseDTO(true, "Ganhou | O | Diagonal para Esquerda");
+		responseDTO = new ResponseDTO(true, "Ganhou | X | Diagonal para Esquerda");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
 	void testHorizontalLinha1() throws Exception {
 		jogo = new ArrayList<String>();
@@ -87,7 +88,7 @@ class TicTacToeControllerTest {
 		responseDTO = new ResponseDTO(true, "Ganhou | X | Horizontal linha 2");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
 	void testHorizontalLinha3() throws Exception {
 		jogo = new ArrayList<String>();
@@ -98,9 +99,9 @@ class TicTacToeControllerTest {
 		responseDTO = new ResponseDTO(true, "Ganhou | X | Horizontal linha 3");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
-	void testVerticalLinha1() throws Exception {
+	void testVerticalColuna1() throws Exception {
 		jogo = new ArrayList<String>();
 		jogo.add("XXO");
 		jogo.add("XOX");
@@ -111,33 +112,72 @@ class TicTacToeControllerTest {
 	}
 
 	@Test
-	void testVerticalLinha2() throws Exception {
+	void testVerticalColuna2() throws Exception {
 		jogo = new ArrayList<String>();
-		jogo.add("OOX");
+		jogo.add("XXO");
+		jogo.add("OXX");
+		jogo.add("OXO");
+		requestDTO = new RequestDTO(jogo);
+		responseDTO = new ResponseDTO(true, "Ganhou | X | Vertical coluna 2");
+		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
+	}
+
+	@Test
+	void testVerticalOColuna2() throws Exception {
+		jogo = new ArrayList<String>();
 		jogo.add("XOO");
 		jogo.add("OOX");
+		jogo.add("XOX");
 		requestDTO = new RequestDTO(jogo);
 		responseDTO = new ResponseDTO(true, "Ganhou | O | Vertical coluna 2");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
-	void testVerticalLinha3() throws Exception {
+	void testVerticalColuna3() throws Exception {
 		jogo = new ArrayList<String>();
-		jogo.add("OXO");
+		jogo.add("XOX");
+		jogo.add("OXX");
+		jogo.add("OOX");
+		requestDTO = new RequestDTO(jogo);
+		responseDTO = new ResponseDTO(true, "Ganhou | X | Vertical coluna 3");
+		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
+	}
+
+	@Test
+	void testVerticalOColuna3() throws Exception {
+		jogo = new ArrayList<String>();
 		jogo.add("XOO");
-		jogo.add("XXO");
+		jogo.add("OXO");
+		jogo.add("OXO");
 		requestDTO = new RequestDTO(jogo);
 		responseDTO = new ResponseDTO(true, "Ganhou | O | Vertical coluna 3");
 		assertThat(controller.isVelha(requestDTO), is(equalTo(ResponseEntity.ok().body(responseDTO))));
 	}
-	
+
 	@Test
 	void testEmpate() throws Exception {
-        final CustomNotFoundException thrown = assertThrows(
-        		CustomNotFoundException.class,
-                () -> { throw new CustomNotFoundException("Empate"); }
-        );
-        assertEquals("Empate", thrown.getMessage());
+		final CustomNotFoundException thrown = assertThrows(CustomNotFoundException.class, () -> {
+			throw new CustomNotFoundException("Empate");
+		});
+		assertEquals("Empate", thrown.getMessage());
 	}
+
+	@Test
+	public void testCustomNotFoundException() {
+
+		assertThrows(CustomNotFoundException.class, new Executable() {
+
+			@Override
+			public void execute() throws Throwable {
+				jogo = new ArrayList<String>();
+				jogo.add("XOO");
+				jogo.add("OXX");
+				jogo.add("XOO");
+				requestDTO = new RequestDTO(jogo);
+				controller.isVelha(requestDTO);
+			}
+		});
+	}
+
 }

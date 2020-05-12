@@ -17,8 +17,8 @@ import lombok.ToString;
 public class RequestDTO {
 
 	@Size(min = 3, max = 3, message = "A lista deve ter o tamanho de 3 posições")
-	private List<@Size(min = 3, max = 3, message = "A string deve ter o exatamente 3 posições") 
-				 @Pattern(regexp = "[@OX\\\\s]*", message = "deve ter apenas O ou X") String> jogo;
+	private List<@Size(min = 3, max = 3, message = "O campo deve ter exatamente 3 posições") 
+				 @Pattern(regexp = "[@OX\\\\s]*", message = "Deve ter apenas O ou X") String> jogo;
 
 	public List<String> getJogo() {
 		return jogo;
